@@ -33,10 +33,10 @@ struct TutorialView: View {
                     Spacer()
                     
                     // Manual advance button (upper right)
-                    Button(action: advanceStep) {
+                    Button(action: { handleGestureDetection(tutorialSteps[currentStep].expectedGesture) }) {
                         Image(systemName: "chevron.right")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.orange)
                     }
                     .buttonStyle(.plain)
                 }
@@ -44,20 +44,25 @@ struct TutorialView: View {
                 .padding(.top, -30)
                 
                 // Show media icon when gesture detected, otherwise show instruction icon
-                if showMediaIcon {
-                    Image(systemName: mediaIcon(for: tutorialSteps[currentStep].expectedGesture))
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geometry.size.width * 0.45, height: geometry.size.width * 0.45)
-                        .symbolEffect(.bounce, value: gestureDetected)
-                        .transition(.scale.combined(with: .opacity))
-                } else {
-                    Image(tutorialSteps[currentStep].symbol)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.65)
-                        .transition(.scale.combined(with: .opacity))
+                ZStack {
+                    if showMediaIcon {
+                        Image(systemName: mediaIcon(for: tutorialSteps[currentStep].expectedGesture))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.45, height: geometry.size.width * 0.65)
+                            .symbolEffect(.bounce, options: .repeat(1))
+                    } else {
+                        Image(tutorialSteps[currentStep].symbol)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.65)
+                    }
                 }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+                .id("\(currentStep)-\(showMediaIcon)")
                 
                 Spacer(minLength: geometry.size.height * 0.12)
                 
@@ -73,6 +78,11 @@ struct TutorialView: View {
                         .font(.system(size: geometry.size.width * 0.07))
                         .foregroundStyle(.secondary)
                 }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+                .id(currentStep)
                 .padding(.bottom, 12)
                 .padding(.horizontal, 8)
             }
@@ -90,7 +100,7 @@ struct TutorialView: View {
         
         gestureDetected.toggle()
         
-        withAnimation(.spring(duration: 0.3)) {
+        withAnimation(.spring(duration: 0.5)) {
             showMediaIcon = true
         }
         
