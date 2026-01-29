@@ -4,7 +4,7 @@
 Flick is a gesture-based music controller built for Apple Watch. The goal is to remove the need to open your device or fumble with tiny buttons when you just want to skip a song.
 
 ## How it works
-Three simple wrist gestures control your media:
+Use three simple wrist gestures control your media:
 - **Flick left**: Next track
 - **Flick right**: Previous track  
 - **Hold upside-down**: Play/Pause
@@ -20,10 +20,48 @@ At gestures untested at this moment, but all graphics and app flow are up and ru
 Volume control isn't possible because WatchOS doesn't expose those APIs, even for remote playback. There may be a workaround as I learn more.
 
 ## Installation
-Want to test it yourself? You can sideload for free to your own personal device after authenticating yourself to develop on that device.
-How to use:
-- Clone this repo and open it in Xcode
-- Build it to your Apple Watch
+Want to test it yourself? Follow the steps below.
+
+**Step 1: Clone this repo into an Xcode project**
+
+- You must have Xcode 26.0 or later
+
+**Step 2: Pair the Watch with your iPhone**
+- The Watch must be paired to an iPhone first
+- That iPhone needs to be signed into the same Apple ID you're using in Xcode
+
+**Step 3: Connect the iPhone to your Mac**
+- Use a USB cable (or enable wireless debugging)
+- The Watch doesn't connect directly. Instead, it goes through the paired iPhone
+
+**Step 4: Enable Developer Mode on both devices**
+
+*On iPhone:*
+- Settings → Privacy & Security → Developer Mode → Turn ON
+- Restart iPhone when prompted
+
+*On Apple Watch:*
+- Settings → Privacy & Security → Developer Mode → Turn ON
+- Restart Watch when prompted
+
+**Step 5: Trust the computer**
+- When you plug in the iPhone, you'll get a "Trust This Computer" prompt
+- Tap Trust and enter passcode
+
+**Step 6: Select Watch as destination in Xcode**
+- At the top of Xcode (next to the play/stop buttons), click the device dropdown
+- You should see the iPhone and below it, the paired Apple Watch
+- Select the Watch (it'll say something like "Apple Watch Series X - [Owner's Name]'s Watch")
+
+**Troubleshooting:**
+- If Watch doesn't appear: Unplug iPhone, restart Xcode, plug back in
+- Make sure Watch and iPhone are both unlocked
+- Check that both have Developer Mode enabled
+- Sometimes it takes 30-60 seconds for Watch to show up after connecting
+
+**Wireless option (once set up):**
+- Window → Devices and Simulators
+- Select your iPhone → Check "Connect via network"
 
 ---
 
