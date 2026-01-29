@@ -22,6 +22,9 @@ class AppStateManager: ObservableObject {
         // Check if first launch
         let hasCompletedWelcome = UserDefaults.standard.bool(forKey: "hasCompletedWelcome")
         self.currentState = hasCompletedWelcome ? .main : .welcome
+        
+        // TESTING: Uncomment to always show welcome
+        UserDefaults.standard.removeObject(forKey: "hasCompletedWelcome")
     }
     
     func completeWelcome() {

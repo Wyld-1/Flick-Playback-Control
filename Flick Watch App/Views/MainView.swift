@@ -14,26 +14,29 @@ struct MainView: View {
     @State private var lastGesture: GestureType = .none
     
     var body: some View {
-        ZStack {
-            // Background breathing circle
-            Image(systemName: "circle")
-                .font(.system(size: 170))
-                .symbolEffect(.breathe.plain.wholeSymbol, options: .repeat(.continuous))
-                .foregroundStyle(.orange)
-            
-            // Gesture icon (replaces "Flick" text)
-            if lastGesture != .none {
-                Image(systemName: gestureIcon(for: lastGesture))
-                    .font(.system(size: 50))
-                    .foregroundStyle(.blue)
-                    .fontWeight(.black)
-                    .symbolEffect(.bounce, value: lastGesture)
-            } else {
-                Text("Flick")
-                    .foregroundStyle(.blue)
-                    .font(.system(size: 40))
-                    .fontWeight(.black)
+        GeometryReader { geometry in
+            ZStack {
+                // Background breathing circle
+                Image(systemName: "circle")
+                    .font(.system(size: geometry.size.width * 0.85))
+                    .symbolEffect(.breathe.plain.wholeSymbol, options: .repeat(.continuous))
+                    .foregroundStyle(.orange)
+                
+                // Gesture icon (replaces "Flick" text)
+                if lastGesture != .none {
+                    Image(systemName: gestureIcon(for: lastGesture))
+                        .font(.system(size: geometry.size.width * 0.25))
+                        .foregroundStyle(.blue)
+                        .fontWeight(.black)
+                        .symbolEffect(.bounce, value: lastGesture)
+                } else {
+                    Text("Flick")
+                        .foregroundStyle(.blue)
+                        .font(.system(size: geometry.size.width * 0.2))
+                        .fontWeight(.black)
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
             motionManager.startMonitoring()

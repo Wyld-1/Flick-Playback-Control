@@ -18,17 +18,19 @@ struct TutorialView: View {
     let tutorialSteps: [(gesture: String, symbol: String, description: String, expectedGesture: GestureType)] = [
         (gesture: "Flick wrist left", symbol: "flick.ccw", description: "Next track", expectedGesture: .nextTrack),
         (gesture: "Flick wrist right", symbol: "flick.cw", description: "Previous track", expectedGesture: .previousTrack),
-        (gesture: "Hold upside-down", symbol: "flip.ccw", description: "Play/Pause", expectedGesture: .playPause)
+        (gesture: "Hold upside-down", symbol: "flip.ccw", description: "Play/pause", expectedGesture: .playPause)
     ]
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 5) {
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
                 // Progress indicator
                 HStack {
                     Text("\(currentStep + 1) / \(tutorialSteps.count)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    
+                    Spacer()
                     
                     // Manual advance button (upper right)
                     Button(action: advanceStep) {
@@ -39,37 +41,40 @@ struct TutorialView: View {
                     .buttonStyle(.plain)
                 }
                 .padding(.horizontal)
-                
-                Spacer()
+                .padding(.top, -30)
                 
                 // Show media icon when gesture detected, otherwise show instruction icon
                 if showMediaIcon {
                     Image(systemName: mediaIcon(for: tutorialSteps[currentStep].expectedGesture))
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 120, height: 120)
+                        .frame(width: geometry.size.width * 0.45, height: geometry.size.width * 0.45)
                         .symbolEffect(.bounce, value: gestureDetected)
                         .transition(.scale.combined(with: .opacity))
                 } else {
                     Image(tutorialSteps[currentStep].symbol)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 200, height: 150)
+                        .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.65)
                         .transition(.scale.combined(with: .opacity))
                 }
                 
-                Spacer()
+                Spacer(minLength: geometry.size.height * 0.12)
                 
                 // Instruction text
-                VStack(spacing: 5) {
+                VStack(spacing: 4) {
                     Text(tutorialSteps[currentStep].gesture)
-                        .font(.headline)
+                        .font(.system(size: geometry.size.width * 0.09))
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
                     
                     Text(tutorialSteps[currentStep].description)
-                        .font(.caption)
+                        .font(.system(size: geometry.size.width * 0.07))
                         .foregroundStyle(.secondary)
                 }
-                .padding(.bottom)
+                .padding(.bottom, 12)
+                .padding(.horizontal, 8)
             }
         }
         .onAppear {
@@ -81,7 +86,6 @@ struct TutorialView: View {
     }
     
     private func handleGestureDetection(_ gesture: GestureType) {
-        // Check if detected gesture matches current step
         guard gesture == tutorialSteps[currentStep].expectedGesture else { return }
         
         gestureDetected.toggle()
@@ -90,7 +94,6 @@ struct TutorialView: View {
             showMediaIcon = true
         }
         
-        // Auto-advance after 1.5 seconds
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             advanceStep()
         }
@@ -108,7 +111,6 @@ struct TutorialView: View {
         }
     }
     
-    // Map gestures to media control icons
     private func mediaIcon(for gesture: GestureType) -> String {
         switch gesture {
         case .nextTrack:
