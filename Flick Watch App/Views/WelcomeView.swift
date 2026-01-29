@@ -15,7 +15,7 @@ struct WelcomeView: View {
     var body: some View {
         VStack {
             Image(systemName: "play")
-                .font(.system(size: 80))
+                .font(.system(size: 100))
                 .symbolEffect(.bounce, value: triggerPulse)
                 .symbolEffect(.breathe.plain.wholeSymbol, options: .repeat(.continuous))
                 .imageScale(.large)

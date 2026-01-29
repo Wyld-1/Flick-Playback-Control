@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject private var motionManager = MotionManager()
+    @StateObject private var mediaManager = MediaManager()
     @State private var lastGesture: GestureType = .none
     
     var body: some View {
@@ -40,6 +41,7 @@ struct MainView: View {
         .onChange(of: motionManager.lastGesture) { oldValue, newValue in
             withAnimation {
                 lastGesture = newValue
+                mediaManager.handleGesture(newValue)
             }
         }
     }
@@ -47,10 +49,6 @@ struct MainView: View {
     // Map gesture types to SF Symbols
     func gestureIcon(for gesture: GestureType) -> String {
         switch gesture {
-        case .volumeUp:
-            return "speaker.plus.fill"
-        case .volumeDown:
-            return "speaker.minus.fill"
         case .nextTrack:
             return "forward.fill"
         case .previousTrack:

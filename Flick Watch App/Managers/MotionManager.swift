@@ -13,11 +13,9 @@ import Combine
 // Gesture types the app can detect
 enum GestureType {
     case none
-    case volumeUp
-    case volumeDown
-    case nextTrack
-    case previousTrack
-    case playPause
+    case nextTrack      // Flick CCW (left)
+    case previousTrack  // Flick CW (right)
+    case playPause      // Hold upside-down
 }
 
 class MotionManager: ObservableObject {
@@ -56,23 +54,23 @@ class MotionManager: ObservableObject {
             return
         }
         
-        // Detect twist gestures (volume control)
+        // Detect twist gestures (track skip)
         detectTwist(data)
         
         // Detect upside-down hold (play/pause)
         detectUpsideDown(data)
-        
-        // TODO: Add double-flick detection for track skip
     }
     
     private func detectTwist(_ data: CMDeviceMotion) {
-        let rotationRate = data.rotationRate.z  // Rotation around Z-axis (pronation/supination)
+        let rotationRate = data.rotationRate.z  // Rotation around Z-axis
         
         if abs(rotationRate) > twistThreshold {
             if rotationRate > 0 {
-                triggerGesture(.volumeUp)
+                // Counter-clockwise (left) = Next track
+                triggerGesture(.nextTrack)
             } else {
-                triggerGesture(.volumeDown)
+                // Clockwise (right) = Previous track
+                triggerGesture(.previousTrack)
             }
         }
     }
