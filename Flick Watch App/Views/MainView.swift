@@ -13,6 +13,7 @@ struct MainView: View {
     @StateObject private var mediaManager = MediaManager()
     @State private var lastGesture: GestureType = .none
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
+    @EnvironmentObject var appState: AppStateManager
     
     var body: some View {
         GeometryReader { geometry in
@@ -35,6 +36,24 @@ struct MainView: View {
                         .foregroundStyle(.blue)
                         .font(.system(size: geometry.size.width * 0.2))
                         .fontWeight(.black)
+                }
+                
+                // Restart button to show the welcome screen and tutorial again
+                VStack {
+                    HStack {
+                        Button(action: {
+                            appState.resetToWelcome()
+                        }) {
+                            Image(systemName: "arrow.counterclockwise")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(8)
+                        
+                        Spacer()
+                    }
+                    Spacer()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
