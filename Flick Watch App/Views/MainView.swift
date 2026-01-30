@@ -17,28 +17,24 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Centered app name
-                VStack(spacing: 4) {
-                    Text("Flick")
-                        .font(.system(size: geometry.size.width * 0.15))
-                        .fontWeight(.black)
-                        .foregroundStyle(.blue)
-                }
+                // Background breathing circle
+                Image(systemName: "circle")
+                    .font(.system(size: geometry.size.width * 0.85))
+                    .symbolEffect(.breathe.plain.wholeSymbol, isActive: !isLuminanceReduced)
+                    .foregroundStyle(.orange)
                 
-                // Gesture confirmation icon - small in lower right
+                // Gesture icon (replaces "Flick" text)
                 if lastGesture != .none {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            Image(systemName: gestureIcon(for: lastGesture))
-                                .font(.system(size: geometry.size.width * 0.15))
-                                .foregroundStyle(.orange)
-                                .symbolEffect(.bounce, value: lastGesture)
-                                .padding(.trailing, 8)
-                                .padding(.bottom, 8)
-                        }
-                    }
+                    Image(systemName: gestureIcon(for: lastGesture))
+                        .font(.system(size: geometry.size.width * 0.25))
+                        .foregroundStyle(.blue)
+                        .fontWeight(.black)
+                        .symbolEffect(.bounce, value: lastGesture)
+                } else {
+                    Text("Flick")
+                        .foregroundStyle(.blue)
+                        .font(.system(size: geometry.size.width * 0.2))
+                        .fontWeight(.black)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -54,6 +50,7 @@ struct MainView: View {
         }
     }
     
+    // Map gesture types to SF Symbols
     func gestureIcon(for gesture: GestureType) -> String {
         switch gesture {
         case .nextTrack:
