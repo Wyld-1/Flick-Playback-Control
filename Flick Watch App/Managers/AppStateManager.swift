@@ -17,8 +17,13 @@ enum AppState {
 
 class AppStateManager: ObservableObject {
     @Published var currentState: AppState
+    @Published var isLeftWrist: Bool = true
     
     init() {
+        // Check wrist orientation
+        let wristLocation = WKInterfaceDevice.current().wristLocation
+        self.isLeftWrist = (wristLocation == .left)
+        
         // Check if first launch
         let hasCompletedWelcome = UserDefaults.standard.bool(forKey: "hasCompletedWelcome")
         self.currentState = hasCompletedWelcome ? .main : .welcome

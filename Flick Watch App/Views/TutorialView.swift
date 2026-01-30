@@ -15,10 +15,10 @@ struct TutorialView: View {
     @State private var gestureDetected = false
     @State private var showMediaIcon = false
     
-    let tutorialSteps: [(gesture: String, symbol: String, description: String, expectedGesture: GestureType)] = [
-        (gesture: "Flick wrist left", symbol: "flick.ccw", description: "Next track", expectedGesture: .nextTrack),
-        (gesture: "Flick wrist right", symbol: "flick.cw", description: "Previous track", expectedGesture: .previousTrack),
-        (gesture: "Hold upside-down", symbol: "flip.ccw", description: "Play/pause", expectedGesture: .playPause)
+    let tutorialSteps: [(gestureLeft: String, gestureRight: String, symbol: String, description: String, expectedGesture: GestureType)] = [
+        (gestureLeft: "Flick wrist left", gestureRight: "Flick wrist right", symbol: "flick.ccw", description: "Next track", expectedGesture: .nextTrack),
+        (gestureLeft: "Flick wrist right", gestureRight: "Flick wrist left", symbol: "flick.cw", description: "Previous track", expectedGesture: .previousTrack),
+        (gestureLeft: "Hold upside-down", gestureRight: "Hold upside-down", symbol: "flip.ccw", description: "Play/pause", expectedGesture: .playPause)
     ]
     
     var body: some View {
@@ -56,6 +56,7 @@ struct TutorialView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.65)
+                            .scaleEffect(x: appState.isLeftWrist ? 1 : -1, y: 1)
                     }
                 }
                 .transition(.asymmetric(
@@ -68,7 +69,7 @@ struct TutorialView: View {
                 
                 // Instruction text
                 VStack(spacing: 4) {
-                    Text(tutorialSteps[currentStep].gesture)
+                    Text(appState.isLeftWrist ? tutorialSteps[currentStep].gestureLeft : tutorialSteps[currentStep].gestureRight)
                         .font(.system(size: geometry.size.width * 0.09))
                         .fontWeight(.semibold)
                         .lineLimit(1)
@@ -89,6 +90,7 @@ struct TutorialView: View {
         }
         .onAppear {
             motionManager.startMonitoring()
+            motionManager.isLeftWrist = appState.isLeftWrist
         }
         .onChange(of: motionManager.lastGesture) { oldValue, newValue in
             handleGestureDetection(newValue)

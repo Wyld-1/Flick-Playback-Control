@@ -12,28 +12,33 @@ struct MainView: View {
     @StateObject private var motionManager = MotionManager()
     @StateObject private var mediaManager = MediaManager()
     @State private var lastGesture: GestureType = .none
+    @Environment(\.isLuminanceReduced) var isLuminanceReduced
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Background breathing circle
-                Image(systemName: "circle")
-                    .font(.system(size: geometry.size.width * 0.85))
-                    .symbolEffect(.breathe.plain.wholeSymbol, options: .repeat(.continuous))
-                    .foregroundStyle(.orange)
-                
-                // Gesture icon (replaces "Flick" text)
-                if lastGesture != .none {
-                    Image(systemName: gestureIcon(for: lastGesture))
-                        .font(.system(size: geometry.size.width * 0.25))
-                        .foregroundStyle(.blue)
-                        .fontWeight(.black)
-                        .symbolEffect(.bounce, value: lastGesture)
-                } else {
+                // Centered app name
+                VStack(spacing: 4) {
                     Text("Flick")
-                        .foregroundStyle(.blue)
-                        .font(.system(size: geometry.size.width * 0.2))
+                        .font(.system(size: geometry.size.width * 0.15))
                         .fontWeight(.black)
+                        .foregroundStyle(.blue)
+                }
+                
+                // Gesture confirmation icon - small in lower right
+                if lastGesture != .none {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Image(systemName: gestureIcon(for: lastGesture))
+                                .font(.system(size: geometry.size.width * 0.15))
+                                .foregroundStyle(.orange)
+                                .symbolEffect(.bounce, value: lastGesture)
+                                .padding(.trailing, 8)
+                                .padding(.bottom, 8)
+                        }
+                    }
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -49,7 +54,6 @@ struct MainView: View {
         }
     }
     
-    // Map gesture types to SF Symbols
     func gestureIcon(for gesture: GestureType) -> String {
         switch gesture {
         case .nextTrack:
