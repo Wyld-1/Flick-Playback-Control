@@ -39,17 +39,18 @@ struct MainView: View {
                 }
                 
                 // Restart button to show the welcome screen and tutorial again
+                // TODO change to Restart Tutorial button
                 VStack {
                     HStack {
                         Button(action: {
                             appState.resetToWelcome()
                         }) {
-                            Image(systemName: "arrow.counterclockwise")
+                            Image(systemName: "questionmark.circle")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
                         .buttonStyle(.plain)
-                        .padding(8)
+                        .position(x:geometry.size.width * 0.15, y:geometry.size.height * -0.15)
                         
                         Spacer()
                     }
