@@ -112,13 +112,19 @@ struct TutorialView: View {
     }
     
     private func advanceStep() {
-        withAnimation {
-            showMediaIcon = false
-            
-            if currentStep < tutorialSteps.count - 1 {
+        if currentStep < tutorialSteps.count - 1 {
+            withAnimation {
+                showMediaIcon = false
                 currentStep += 1
-            } else {
-                appState.completeTutorial()
+            }
+        } else {
+            // Final step - animate out before transitioning
+            withAnimation(.spring(duration: 0.5)) {}
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation(.easeInOut(duration: 0.6)) {
+                    appState.completeTutorial()
+                }
             }
         }
     }

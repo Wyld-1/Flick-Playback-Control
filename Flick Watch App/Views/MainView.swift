@@ -13,6 +13,7 @@ struct MainView: View {
     @StateObject private var mediaManager = MediaManager()
     @State private var lastGesture: GestureType = .none
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
+    @State private var showHelp = false
     @EnvironmentObject var appState: AppStateManager
     
     var body: some View {
@@ -38,12 +39,11 @@ struct MainView: View {
                         .fontWeight(.black)
                 }
                 
-                // Restart button to show the welcome screen and tutorial again
-                // TODO change to Restart Tutorial button
+                // Button to open help menu
                 VStack {
                     HStack {
                         Button(action: {
-                            appState.resetToWelcome()
+                            showHelp = true
                         }) {
                             Image(systemName: "questionmark.circle")
                                 .font(.caption)
@@ -59,6 +59,10 @@ struct MainView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .sheet(isPresented: $showHelp) {
+            HelpView()
+        }
+        
         .onAppear {
             motionManager.startMonitoring()
         }

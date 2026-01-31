@@ -14,16 +14,21 @@ struct Flick_Watch_AppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            // Show different views based on state
-            switch appState.currentState {
-            case .welcome:
-                WelcomeView()
-            case .tutorial:
-                TutorialView()
-            case .main:
-                MainView()
+            ZStack {
+                switch appState.currentState {
+                case .welcome:
+                    WelcomeView()
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
+                case .tutorial:
+                    TutorialView()
+                        .transition(.move(edge: .leading).combined(with: .opacity))
+                case .main:
+                    MainView()
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
+                }
             }
+            .animation(.easeInOut(duration: 0.6), value: appState.currentState)
+            .environmentObject(appState)
         }
-        .environmentObject(appState)
     }
 }

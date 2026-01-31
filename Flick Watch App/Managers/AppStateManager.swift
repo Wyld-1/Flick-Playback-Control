@@ -47,4 +47,8 @@ class AppStateManager: ObservableObject {
         UserDefaults.standard.removeObject(forKey: "hasCompletedWelcome")
         currentState = .welcome
     }
+    
+    func goToMain() {
+        currentState = .main
+    }
 }
