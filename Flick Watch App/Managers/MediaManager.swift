@@ -12,8 +12,6 @@ import WatchKit
 import Combine
 
 class MediaManager: ObservableObject {
-    @Published var currentTrack: String = "Ready"
-    
     private let commandCenter = MPRemoteCommandCenter.shared()
     
     func handleGesture(_ gesture: GestureType) {

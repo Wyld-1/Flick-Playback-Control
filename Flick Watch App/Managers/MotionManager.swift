@@ -24,7 +24,7 @@ class MotionManager: NSObject, ObservableObject {
     
     private let motion = CMMotionManager()
     private var lastGestureTime: Date = Date()
-    private let gestureCooldown: TimeInterval = 0.8
+    private var upsideDownStartTime: Date?
     
     // Workout session for background execution
     private let healthStore = HKHealthStore()
@@ -32,10 +32,10 @@ class MotionManager: NSObject, ObservableObject {
     private var workoutBuilder: HKLiveWorkoutBuilder?
     
     // Tunable thresholds
-    private let twistThreshold: Double = 2.5
-    private let upsideDownThreshold: Double = 0.7
-    private var upsideDownStartTime: Date?
-    private let upsideDownHoldTime: TimeInterval = 1.5
+    private let TWIST_THRESHOLD: Double = 2.5               // rad/s
+    private let UPSIDE_DOWN_THRESHOLD: Double = 0.7         // Gravity force ratio, -1.0 < n < 1.0 —— -1.0 DOWN, 1.0 UP, 0 HORIZONTAL
+    private let UPSIDE_DOWN_HOLD_TIME: TimeInterval = 1.5   // Seconds
+    private let GESTURE_COOLDOWN: TimeInterval = 0.8        // Seconds
     
     var isLeftWrist: Bool = true
     
@@ -110,7 +110,7 @@ class MotionManager: NSObject, ObservableObject {
     }
     
     private func processMotion(_ data: CMDeviceMotion) {
-        guard Date().timeIntervalSince(lastGestureTime) > gestureCooldown else {
+        guard Date().timeIntervalSince(lastGestureTime) > GESTURE_COOLDOWN else {
             return
         }
         
@@ -121,7 +121,7 @@ class MotionManager: NSObject, ObservableObject {
     private func detectTwist(_ data: CMDeviceMotion) {
         let rotationRate = data.rotationRate.z
         
-        if abs(rotationRate) > twistThreshold {
+        if abs(rotationRate) > TWIST_THRESHOLD {
             if isLeftWrist {
                 if rotationRate > 0 {
                     triggerGesture(.nextTrack)
@@ -129,7 +129,7 @@ class MotionManager: NSObject, ObservableObject {
                     triggerGesture(.previousTrack)
                 }
             } else {
-                // Right wrist - flip it
+                // Flippped for right wrist
                 if rotationRate > 0 {
                     triggerGesture(.previousTrack)
                 } else {
@@ -142,11 +142,11 @@ class MotionManager: NSObject, ObservableObject {
     private func detectUpsideDown(_ data: CMDeviceMotion) {
         let gravity = data.gravity.z
         
-        if gravity > upsideDownThreshold {
+        if gravity > UPSIDE_DOWN_THRESHOLD {
             if upsideDownStartTime == nil {
                 upsideDownStartTime = Date()
             } else if let startTime = upsideDownStartTime,
-                      Date().timeIntervalSince(startTime) >= upsideDownHoldTime {
+                      Date().timeIntervalSince(startTime) >= UPSIDE_DOWN_HOLD_TIME {
                 triggerGesture(.playPause)
                 upsideDownStartTime = nil
             }

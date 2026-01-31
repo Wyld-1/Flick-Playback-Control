@@ -21,7 +21,7 @@ struct Flick_Watch_AppApp: App {
                         .transition(.scale(scale: 0.8).combined(with: .opacity))
                 case .tutorial:
                     TutorialView()
-                        .transition(.move(edge: .leading).combined(with: .opacity))
+                        .transition(.scale(scale: 0.8).combined(with: .opacity))
                 case .main:
                     MainView()
                         .transition(.scale(scale: 0.8).combined(with: .opacity))

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var appState: AppStateManager
+    @StateObject private var motionManager = MotionManager()
     @State private var triggerPulse = false
     
     var body: some View {
