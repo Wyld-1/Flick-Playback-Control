@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HelpView: View {
+struct SettingsView: View {
     @EnvironmentObject var appState: AppStateManager
     @State private var showCredits = false
     @State private var isTapEnabled = false
@@ -66,7 +66,7 @@ struct HelpView: View {
 }
 
 #Preview {
-    HelpView()
+    SettingsView()
         .environmentObject(AppStateManager())
 }
 

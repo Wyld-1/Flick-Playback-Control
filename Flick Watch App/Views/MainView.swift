@@ -13,7 +13,7 @@ struct MainView: View {
     @StateObject private var mediaManager = MediaManager()
     @State private var lastGesture: GestureType = .none
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
-    @State private var showHelp = false
+    @State private var showSettings = false
     @EnvironmentObject var appState: AppStateManager
     
     var body: some View {
@@ -43,7 +43,7 @@ struct MainView: View {
                 VStack {
                     HStack {
                         Button(action: {
-                            showHelp = true
+                            showSettings = true
                         }) {
                             Image(systemName: "gearshape.fill")
                                 .font(.caption)
@@ -61,8 +61,8 @@ struct MainView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .sheet(isPresented: $showHelp) {
-            HelpView()
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
         }
         
         .onAppear {
