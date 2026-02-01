@@ -25,7 +25,7 @@ struct SettingsView: View {
                 Toggle(isOn: $isTapEnabled) {
                     HStack(spacing: 4) {
                         Text("Tap screen to")
-                        Image(systemName: "playpause")
+                        Image(systemName: "playpause.fill")
                     }
                 }
                 .tint(.orange)
@@ -47,6 +47,7 @@ struct SettingsView: View {
                 }) {
                     Text("Restart tutorial")
                         .foregroundStyle(.orange)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
                 // Credits button
@@ -55,12 +56,13 @@ struct SettingsView: View {
                 }) {
                     Text("About")
                         .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
             .listStyle(.plain)
-            .sheet(isPresented: $showCredits) {
-                CreditsView()
-            }
+        }
+        .sheet(isPresented: $showCredits) {
+            CreditsView()
         }
     }
 }
