@@ -10,36 +10,54 @@ import SwiftUI
 struct HelpView: View {
     @EnvironmentObject var appState: AppStateManager
     @State private var showCredits = false
+    @State private var isTapEnabled = false
+    @State private var isFlickDirectionReversed = false
     
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 12) {
-                Text("\nGo on, play the music you 💕\n\nFlick will run behind the scenes.")
+        List {
+            Section {
+                Text("Go on, play the music you 💕\n\nFlick will run behind the scenes.")
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 20)
-               
+                
+                // Enable/disable tap for play/pause toggle
+                Toggle(isOn: $isTapEnabled) {
+                    HStack(spacing: 4) {
+                        Text("Tap screen to")
+                        Image(systemName: "playpause")
+                    }
+                }
+                .tint(.orange)
+                
+                // Reverse flick directions
+                Toggle(isOn: $isFlickDirectionReversed) {
+                    HStack(spacing: 4) {
+                        Text("Inverse")
+                        Image(systemName: "backward.fill")
+                        Text("/")
+                        Image(systemName: "forward.fill")
+                    }
+                }
+                .tint(.orange)
+                
                 // Restart tutorial button
                 Button(action: {
                     appState.resetToTutorial()
                 }) {
                     Text("Restart tutorial")
-                        .font(.caption)
                         .foregroundStyle(.orange)
                 }
-                .buttonStyle(.glass)
                 
                 // Credits button
                 Button(action: {
                     showCredits = true
                 }) {
                     Text("About")
-                        .font(.caption)
                         .foregroundStyle(.secondary)
                 }
-                .buttonStyle(.plain)
             }
+            .listStyle(.plain)
             .sheet(isPresented: $showCredits) {
                 CreditsView()
             }
