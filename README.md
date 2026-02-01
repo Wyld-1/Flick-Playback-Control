@@ -16,8 +16,9 @@ I wanted something dead simple for controlling music while skiing, biking, or be
 The iPod Shuffle had the right idea with physical simplicity all those years ago, but I wanted to make it modern and take it a step further.
 
 ## Current status
-At gestures untested at this moment, but all graphics and app flow are up and running. A welcome screen greets you upon first luanch, and a simple tutorial walks you through each gesture.
-Volume control isn't possible because WatchOS doesn't expose those APIs, even for remote playback. There may be a workaround as I learn more.
+At gestures untested at this moment, but  graphics and app flow are up and running. A welcome screen greets you upon first luanch, and a simple tutorial walks you through each gesture.
+Volume control isn't possible because WatchOS doesn't expose those APIs, even for remote playback.
+After testing, I'll add double flick detection and link to "Like song"
 
 ## Installation
 Want to test it yourself? Follow the steps below.
