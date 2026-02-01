@@ -45,11 +45,13 @@ struct MainView: View {
                         Button(action: {
                             showHelp = true
                         }) {
-                            Image(systemName: "questionmark.circle")
+                            Image(systemName: "gearshape.fill")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(.glass)
+                        .buttonBorderShape(.circle)
+                        .controlSize(.mini)
                         .position(x:geometry.size.width * 0.15, y:geometry.size.height * -0.15)
                         
                         Spacer()

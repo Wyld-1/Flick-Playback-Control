@@ -24,24 +24,30 @@ struct TutorialView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 0) {
+                
                 // Progress indicator
                 HStack {
-                    Text("\(currentStep + 1) / \(tutorialSteps.count)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Button(action: {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.75)) {
+                            handleGestureDetection(tutorialSteps[currentStep].expectedGesture)
+                        }
+                    }) {
+                        Text("\(currentStep + 1) / \(tutorialSteps.count)")
+                            .font(.system(.caption2, design: .rounded))
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 4)
+                            // Magic transition
+                            .contentTransition(.numericText(value: Double(currentStep)))
+                    }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.capsule)
+                    .controlSize(.mini)
+                    .fixedSize()
                     
                     Spacer()
-                    
-                    // Manual advance button (upper right)
-                    Button(action: { handleGestureDetection(tutorialSteps[currentStep].expectedGesture) }) {
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.orange)
-                    }
-                    .buttonStyle(.plain)
                 }
-                .padding(.horizontal)
-                .padding(.top, -30)
+                .padding(.horizontal, 15) // Moves off left bezel
+                .padding(.top, -38) // Moves toward top
                 
                 // Show media icon when gesture detected, otherwise show instruction icon
                 ZStack {
