@@ -21,7 +21,7 @@ enum GestureType {
 
 class MotionManager: NSObject, ObservableObject {
     @Published var lastGesture: GestureType = .none
-    @EnvironmentObject var appState: AppStateManager
+    weak var appState: AppStateManager?
     
     private let motion = CMMotionManager()
     private var lastGestureTime: Date = Date()
@@ -123,18 +123,20 @@ class MotionManager: NSObject, ObservableObject {
         let rotationRate = data.rotationRate.z
         
         if abs(rotationRate) > TWIST_THRESHOLD {
-            if isLeftWrist && !appState.isFlickDirectionReversed{
+            // Determine if we should reverse based on wrist AND user preference
+            let shouldReverse = (isLeftWrist != (appState?.isFlickDirectionReversed ?? false))
+            
+            if shouldReverse {
                 if rotationRate > 0 {
-                    triggerGesture(.nextTrack)
-                } else {
                     triggerGesture(.previousTrack)
+                } else {
+                    triggerGesture(.nextTrack)
                 }
             } else {
-                // Flippped for right wrist or user preferences
                 if rotationRate > 0 {
-                    triggerGesture(.previousTrack)
-                } else {
                     triggerGesture(.nextTrack)
+                } else {
+                    triggerGesture(.previousTrack)
                 }
             }
         }

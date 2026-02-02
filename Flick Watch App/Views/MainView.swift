@@ -82,6 +82,7 @@ struct MainView: View {
         .onAppear {
             motionManager.startMonitoring()
             motionManager.isLeftWrist = appState.isLeftWrist
+            motionManager.appState = appState
         }
         .onChange(of: motionManager.lastGesture) { oldValue, newValue in
             withAnimation {
