@@ -18,13 +18,25 @@ enum AppState {
 class AppStateManager: ObservableObject {
     @Published var currentState: AppState
     @Published var isLeftWrist: Bool = true
-    @Published var isTapEnabled: Bool = false
-    @Published var isFlickDirectionReversed = false
+    @Published var isTapEnabled: Bool {
+            didSet {
+                UserDefaults.standard.set(isTapEnabled, forKey: "isTapEnabled")
+            }
+        }
+    @Published var isFlickDirectionReversed: Bool {
+        didSet {
+            UserDefaults.standard.set(isFlickDirectionReversed, forKey: "isFlickDirectionReversed")
+        }
+    }
     
     init() {
         // Check wrist orientation
         let wristLocation = WKInterfaceDevice.current().wristLocation
         self.isLeftWrist = (wristLocation == .left)
+        
+        // Load saved settings
+        self.isTapEnabled = UserDefaults.standard.bool(forKey: "isTapEnabled")
+        self.isFlickDirectionReversed = UserDefaults.standard.bool(forKey: "isFlickDirectionReversed")
         
         // Check if first launch
         let hasCompletedWelcome = UserDefaults.standard.bool(forKey: "hasCompletedWelcome")
