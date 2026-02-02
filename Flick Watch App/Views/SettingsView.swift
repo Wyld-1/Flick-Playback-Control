@@ -10,8 +10,6 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var appState: AppStateManager
     @State private var showCredits = false
-    @State private var isTapEnabled = false
-    @State private var isFlickDirectionReversed = false
     
     var body: some View {
         List {
@@ -22,7 +20,7 @@ struct SettingsView: View {
                     .fixedSize(horizontal: false, vertical: true)
                 
                 // Enable/disable tap for play/pause toggle
-                Toggle(isOn: $isTapEnabled) {
+                Toggle(isOn: $appState.isTapEnabled) {
                     HStack(spacing: 4) {
                         Text("Tap screen to")
                         Image(systemName: "playpause.fill")
@@ -31,7 +29,7 @@ struct SettingsView: View {
                 .tint(.orange)
                 
                 // Reverse flick directions
-                Toggle(isOn: $isFlickDirectionReversed) {
+                Toggle(isOn: $appState.isFlickDirectionReversed) {
                     HStack(spacing: 4) {
                         Text("Inverse")
                         Image(systemName: "backward.fill")

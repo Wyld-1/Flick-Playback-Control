@@ -18,6 +18,8 @@ enum AppState {
 class AppStateManager: ObservableObject {
     @Published var currentState: AppState
     @Published var isLeftWrist: Bool = true
+    @Published var isTapEnabled: Bool = false
+    @Published var isFlickDirectionReversed = false
     
     init() {
         // Check wrist orientation

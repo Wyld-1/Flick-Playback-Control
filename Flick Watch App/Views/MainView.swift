@@ -19,27 +19,40 @@ struct MainView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Background breathing circle
-                Image(systemName: "circle")
-                    .font(.system(size: geometry.size.width * 0.85))
-                    .symbolEffect(.breathe.plain.wholeSymbol, isActive: !isLuminanceReduced)
-                    .foregroundStyle(.orange)
-                
-                // Gesture icon (replaces "Flick" text)
-                if lastGesture != .none {
-                    Image(systemName: gestureIcon(for: lastGesture))
-                        .font(.system(size: geometry.size.width * 0.25))
-                        .foregroundStyle(.blue)
-                        .fontWeight(.black)
-                        .symbolEffect(.bounce, value: lastGesture)
-                } else {
-                    Text("Flick")
-                        .foregroundStyle(.blue)
-                        .font(.system(size: geometry.size.width * 0.2))
-                        .fontWeight(.black)
+                // Tappable background layer
+                ZStack {
+                    // Background breathing circle
+                    Image(systemName: "circle")
+                        .font(.system(size: geometry.size.width * 0.85))
+                        .symbolEffect(.breathe.plain.wholeSymbol, isActive: !isLuminanceReduced)
+                        .foregroundStyle(.orange)
+                    
+                    // Gesture icon (replaces "Flick" text)
+                    if lastGesture != .none {
+                        Image(systemName: gestureIcon(for: lastGesture))
+                            .font(.system(size: geometry.size.width * 0.25))
+                            .foregroundStyle(.blue)
+                            .fontWeight(.black)
+                            .symbolEffect(.bounce, value: lastGesture)
+                    } else {
+                        Text("Flick")
+                            .foregroundStyle(.blue)
+                            .font(.system(size: geometry.size.width * 0.2))
+                            .fontWeight(.black)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if appState.isTapEnabled {
+                        mediaManager.handleGesture(.playPause)
+                        withAnimation {
+                            lastGesture = .playPause
+                        }
+                    }
                 }
                 
-                // Button to open help menu
+                // Button layer on top and unaffected by screen tap
                 VStack {
                     HStack {
                         Button(action: {
@@ -52,21 +65,23 @@ struct MainView: View {
                         .buttonStyle(.glass)
                         .buttonBorderShape(.circle)
                         .controlSize(.mini)
+                        .clipShape(Circle())
                         .position(x:geometry.size.width * 0.15, y:geometry.size.height * -0.15)
                         
                         Spacer()
                     }
                     Spacer()
                 }
+                // Ensures button receives taps first
+                .allowsHitTesting(true)  // ← Ensures button receives taps first
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
-        
         .onAppear {
             motionManager.startMonitoring()
+            motionManager.isLeftWrist = appState.isLeftWrist
         }
         .onChange(of: motionManager.lastGesture) { oldValue, newValue in
             withAnimation {
@@ -93,4 +108,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environmentObject(AppStateManager())
 }
