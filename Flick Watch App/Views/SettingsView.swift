@@ -43,6 +43,10 @@ struct SettingsView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
+                Link("Share feedback", destination: URL(string: "https://forms.gle/srpX8xf9EpCDjmC18")!)
+                    .foregroundColor(.blue)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
                 // Credits button
                 Button(action: {
                     showCredits = true

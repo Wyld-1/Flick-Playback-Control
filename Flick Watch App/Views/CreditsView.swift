@@ -13,14 +13,22 @@ struct CreditsView: View {
     var body: some View {
         List {
             Section {
-                VStack(spacing: 15) {
-                    Text("\nFlick 1.0\n\nCreated by Wyld-1")
+                VStack(spacing: 20) {
+                    Text("")
+                    
+                    Text("Flick 1.0")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                     
-                    Text("Built with 🧡 for adventure\n")
+                    Text("Created by Wyld-1")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.secondary)
+                    
+                    Text("Built with 🧡 for adventure")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.orange)
+                    
+                    Text("")
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
             }
