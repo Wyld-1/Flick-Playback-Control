@@ -55,13 +55,13 @@ struct TutorialView: View {
                         Image(systemName: mediaIcon(for: tutorialSteps[currentStep].expectedGesture))
                             .resizable()
                             .scaledToFit()
-                            .frame(width: geometry.size.width * 0.45, height: geometry.size.width * 0.65)
+                            .frame(width: geometry.size.width * 0.45, height: geometry.size.width * 0.6)
                             .symbolEffect(.bounce, options: .repeat(1))
                     } else {
                         Image(tutorialSteps[currentStep].symbol)
                             .resizable()
                             .scaledToFit()
-                            .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.65)
+                            .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.6)
                             .scaleEffect(x: appState.isLeftWrist ? 1 : -1, y: 1)
                     }
                 }

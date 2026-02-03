@@ -36,41 +36,59 @@ struct SettingsView: View {
                 
                 // Feedback link
                 Link(destination: URL(string: "https://forms.gle/srpX8xf9EpCDjmC18")!) {
-                    HStack(spacing: 8) {
-                        Image(systemName: "pencil.tip.crop.circle.fill")
-                            .foregroundColor(.purple)
-                        
-                        Text("Build Flick with us")
-                            .foregroundColor(.purple)
+                    ZStack {
+                        // Centered label
+                        Text("Join the build")
+                            .foregroundStyle(.purple)
+
+                        // Left-aligned icon
+                        HStack {
+                            Image(systemName: "pencil.tip.crop.circle.fill")
+                                .foregroundStyle(.purple)
+                            Spacer()
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity)
                 }
                 
                 // Restart tutorial button
                 Button(action: {
                     appState.resetToTutorial()
                 }) {
-                    HStack(spacing: 8) {
-                        Image(systemName:  "arrow.counterclockwise.circle.fill")
+                    ZStack {
+                        // Centered label
+                        Text("Replay tutorial")
                             .foregroundStyle(.orange)
-                        Text("Restart tutorial")
-                            .foregroundStyle(.orange)
+
+                        // Left-aligned icon
+                        HStack {
+                            Image(systemName: "arrow.counterclockwise.circle.fill")
+                                .foregroundStyle(.orange)
+                            Spacer()
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity)
                 }
                 
                 // Credits button
                 Button(action: {
                     showCredits = true
                 }) {
-                    HStack(spacing: 8) {
-                        Image(systemName:  "info.circle.fill")
-                            .foregroundStyle(.secondary)
+                    ZStack {
+                        // Centered label
                         Text("About")
                             .foregroundStyle(.secondary)
+
+                        // Left-aligned icon
+                        HStack {
+                            Image(systemName: "info.circle.fill")
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
                     }
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity)
                 }
+                .frame(maxWidth: .infinity)
             }
             .listStyle(.plain)
         }
