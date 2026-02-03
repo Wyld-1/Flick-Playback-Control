@@ -35,26 +35,41 @@ struct SettingsView: View {
                 .tint(.orange)
                 
                 // Feedback link
-                Link("Build Flick with us", destination: URL(string: "https://forms.gle/srpX8xf9EpCDjmC18")!)
-                    .foregroundColor(.purple)
+                Link(destination: URL(string: "https://forms.gle/srpX8xf9EpCDjmC18")!) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "pencil.tip.crop.circle.fill")
+                            .foregroundColor(.purple)
+                        
+                        Text("Build Flick with us")
+                            .foregroundColor(.purple)
+                    }
                     .frame(maxWidth: .infinity, alignment: .center)
+                }
                 
                 // Restart tutorial button
                 Button(action: {
                     appState.resetToTutorial()
                 }) {
-                    Text("Restart tutorial")
-                        .foregroundStyle(.orange)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                    HStack(spacing: 8) {
+                        Image(systemName:  "arrow.counterclockwise.circle.fill")
+                            .foregroundStyle(.orange)
+                        Text("Restart tutorial")
+                            .foregroundStyle(.orange)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
                 
                 // Credits button
                 Button(action: {
                     showCredits = true
                 }) {
-                    Text("About")
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                    HStack(spacing: 8) {
+                        Image(systemName:  "info.circle.fill")
+                            .foregroundStyle(.secondary)
+                        Text("About")
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
             .listStyle(.plain)
