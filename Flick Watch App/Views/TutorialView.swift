@@ -76,13 +76,10 @@ struct TutorialView: View {
                 // Instruction text
                 VStack(spacing: 4) {
                     Text(appState.isLeftWrist ? tutorialSteps[currentStep].gestureLeft : tutorialSteps[currentStep].gestureRight)
-                        .font(.system(size: geometry.size.width * 0.09))
                         .fontWeight(.semibold)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.7)
                     
                     Text(tutorialSteps[currentStep].description)
-                        .font(.system(size: geometry.size.width * 0.07))
                         .foregroundStyle(.secondary)
                 }
                 .transition(.asymmetric(
