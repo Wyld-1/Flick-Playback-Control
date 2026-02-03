@@ -34,6 +34,11 @@ struct SettingsView: View {
                 }
                 .tint(.orange)
                 
+                // Feedback link
+                Link("Build Flick with us", destination: URL(string: "https://forms.gle/srpX8xf9EpCDjmC18")!)
+                    .foregroundColor(.purple)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
                 // Restart tutorial button
                 Button(action: {
                     appState.resetToTutorial()
@@ -42,10 +47,6 @@ struct SettingsView: View {
                         .foregroundStyle(.orange)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
-                
-                Link("Share feedback", destination: URL(string: "https://forms.gle/srpX8xf9EpCDjmC18")!)
-                    .foregroundColor(.blue)
-                    .frame(maxWidth: .infinity, alignment: .center)
                 
                 // Credits button
                 Button(action: {
