@@ -36,7 +36,9 @@ struct MainView: View {
                             .symbolEffect(.bounce, value: lastGesture)
                     } else {
                         Text("Flick")
-                            .foregroundStyle(.blue)
+                            .foregroundColor(Color(red: 96/255,
+                                                        green: 0/255,
+                                                        blue: 247/255))
                             .font(.system(size: geometry.size.width * 0.2))
                             .fontWeight(.black)
                     }
@@ -52,28 +54,26 @@ struct MainView: View {
                     }
                 }
                 
-                // Button layer on top and unaffected by screen tap
-                VStack {
-                    HStack {
-                        Button(action: {
-                            showSettings = true
-                        }) {
-                            Image(systemName: "gearshape.fill")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        .buttonStyle(.glass)
-                        .buttonBorderShape(.circle)
-                        .controlSize(.mini)
-                        .clipShape(Circle())
-                        .position(x:geometry.size.width * 0.15, y:geometry.size.height * -0.15)
-                        
-                        Spacer()
-                    }
-                    Spacer()
+                // Button layer on top, and unaffected by screen tap
+                Button(action: {
+                    showSettings = true
+                }) {
+                    Image(systemName: "gearshape.fill")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
                 }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .controlSize(.small)
+                .clipShape(.circle)
+                .position(
+                    x: geometry.size.width * 0.16,
+                    y: geometry.size.height * -0.115
+                )
+                .opacity(isLuminanceReduced ? 0.6 : 1)
+                
                 // Ensures button receives taps first
-                .allowsHitTesting(true)  // ← Ensures button receives taps first
+                .allowsHitTesting(true)
             }
         }
         .sheet(isPresented: $showSettings) {

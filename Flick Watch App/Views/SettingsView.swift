@@ -14,11 +14,6 @@ struct SettingsView: View {
     var body: some View {
         List {
             Section {
-                Text("Go on, play the music you 💕\n\nFlick will run behind the scenes.")
-                    .multilineTextAlignment(.center)
-                    .lineLimit(nil)
-                    .fixedSize(horizontal: false, vertical: true)
-                
                 // Enable/disable tap for play/pause toggle
                 Toggle(isOn: $appState.isTapEnabled) {
                     HStack(spacing: 4) {
@@ -31,7 +26,7 @@ struct SettingsView: View {
                 // Reverse flick directions
                 Toggle(isOn: $appState.isFlickDirectionReversed) {
                     HStack(spacing: 4) {
-                        Text("Inverse")
+                        Text("Flip")
                         Image(systemName: "backward.fill")
                         Text("/")
                         Image(systemName: "forward.fill")
