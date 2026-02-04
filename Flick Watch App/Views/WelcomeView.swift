@@ -40,16 +40,16 @@ struct WelcomeView: View {
                 
                 Text("Playback just got convenient")
                     .foregroundStyle(.secondary)
-                    .font(.system(size: geometry.size.width * 0.1))
+                    .font(.title3)
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
                     // Prevents horizontal compression and allows vertical expansion
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 5)
                     
                     // Fade in animation
                     .opacity(isTextVisible ? 1 : 0) // Animate opacity from 0 to 1
-                    .animation(.easeInOut(duration: 2).delay(1), value: isTextVisible)
+                    .animation(.easeInOut(duration: 2).delay(0.5), value: isTextVisible)
                     .onAppear {
                         isTextVisible = true // Trigger the animation when the view appears
                     }
