@@ -43,7 +43,7 @@ struct SettingsView: View {
 
                         // Left-aligned icon
                         HStack {
-                            Image(systemName: "pencil.tip.crop.circle.fill")
+                            Image(systemName: "bubble.left.and.bubble.right.fill")
                                 .foregroundStyle(.purple)
                             Spacer()
                         }

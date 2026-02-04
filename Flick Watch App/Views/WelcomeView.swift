@@ -12,6 +12,7 @@ struct WelcomeView: View {
     @EnvironmentObject var appState: AppStateManager
     @StateObject private var motionManager = MotionManager()
     @State private var triggerPulse = false
+    @State private var isTextVisible = false;
     
     var body: some View {
         GeometryReader { geometry in
@@ -35,14 +36,23 @@ struct WelcomeView: View {
                     }
                 
                 Spacer()
-                    .frame(height: geometry.size.height * 0.2)
+                    .frame(height: geometry.size.height * 0.15)
                 
-                Text("Playback just got")
-                    .foregroundStyle(.tint)
+                Text("Playback just got convenient")
+                    .foregroundStyle(.secondary)
                     .font(.system(size: geometry.size.width * 0.1))
-                Text("convenient")
-                    .foregroundStyle(.tint)
-                    .font(.system(size: geometry.size.width * 0.1))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(nil)
+                    // Prevents horizontal compression and allows vertical expansion
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 20)
+                    
+                    // Fade in animation
+                    .opacity(isTextVisible ? 1 : 0) // Animate opacity from 0 to 1
+                    .animation(.easeInOut(duration: 2).delay(1), value: isTextVisible)
+                    .onAppear {
+                        isTextVisible = true // Trigger the animation when the view appears
+                    }
                 
                 Spacer()
             }

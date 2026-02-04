@@ -16,8 +16,8 @@ struct TutorialView: View {
     @State private var showMediaIcon = false
     
     let tutorialSteps: [(gestureLeft: String, gestureRight: String, symbol: String, description: String, expectedGesture: GestureType)] = [
-        (gestureLeft: "Flick wrist left", gestureRight: "Flick wrist right", symbol: "flick.ccw", description: "Next track", expectedGesture: .nextTrack),
-        (gestureLeft: "Flick wrist right", gestureRight: "Flick wrist left", symbol: "flick.cw", description: "Previous track", expectedGesture: .previousTrack),
+        (gestureLeft: "Flick wrist left", gestureRight: "Flick wrist right", symbol: "flick.ccw.2", description: "Next track", expectedGesture: .nextTrack),
+        (gestureLeft: "Flick wrist right", gestureRight: "Flick wrist left", symbol: "flick.cw.2", description: "Previous track", expectedGesture: .previousTrack),
         (gestureLeft: "Hold upside-down", gestureRight: "Hold upside-down", symbol: "flip.ccw", description: "Play/pause", expectedGesture: .playPause)
     ]
     
