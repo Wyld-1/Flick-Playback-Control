@@ -460,7 +460,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Flick-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Flick;
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Flick uses Health data to identify gestures in the background";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Flick uses Health permission to identify gestures in the background";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Flick uses motion data to detect playback gestures";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -497,7 +497,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Flick-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Flick;
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Flick uses Health data to identify gestures in the background";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Flick uses Health permission to identify gestures in the background";
 				INFOPLIST_KEY_NSMotionUsageDescription = "Flick uses motion data to detect playback gestures";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKWatchOnly = YES;

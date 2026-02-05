@@ -10,8 +10,10 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var appState: AppStateManager
+    @StateObject private var tempMotion = MotionManager()
     @State private var triggerPulse = false
-    @State private var isTextVisible = false;
+    @State private var isTextVisible = false
+    @State private var isRequesting = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -23,15 +25,7 @@ struct WelcomeView: View {
                     .imageScale(.large)
                     .foregroundStyle(.orange)
                     .onTapGesture {
-                        // Trigger single pulse
-                        triggerPulse.toggle()
-                        
-                        // Wait for animation, then transition
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            withAnimation(.easeInOut(duration: 0.5)) {
-                                appState.completeWelcome()
-                            }
-                        }
+                        handleTap()
                     }
                 
                 Spacer()
@@ -48,7 +42,7 @@ struct WelcomeView: View {
                     
                     // Fade in animation
                     .opacity(isTextVisible ? 1 : 0) // Animate opacity from 0 to 1
-                    .animation(.easeInOut(duration: 2).delay(0.5), value: isTextVisible)
+                    .animation(.easeInOut(duration: 2).delay(0), value: isTextVisible)
                     .onAppear {
                         isTextVisible = true // Trigger the animation when the view appears
                     }
@@ -58,6 +52,23 @@ struct WelcomeView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .padding()
+    }
+    
+    private func handleTap() {
+        guard !isRequesting else { return }
+        isRequesting = true
+        triggerPulse.toggle()
+
+        // Request HealthKit access. Once done, continue
+        tempMotion.requestHealthKitAuthorization { success in
+            WKInterfaceDevice.current().play(.success)
+            withAnimation(.spring(duration: 0.5)) {}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                withAnimation(.easeInOut(duration: 0.6)) {
+                    appState.completeWelcome()
+                }
+            }
+        }
     }
 }
 

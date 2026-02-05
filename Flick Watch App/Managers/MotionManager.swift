@@ -42,15 +42,19 @@ class MotionManager: NSObject, ObservableObject {
     
     override init() {
         super.init()
-        requestHealthKitAuthorization()
+        //requestHealthKitAuthorization()
     }
     
-    private func requestHealthKitAuthorization() {
+    func requestHealthKitAuthorization(completion: @escaping (Bool) -> Void) {
         let typesToShare: Set = [HKObjectType.workoutType()]
         
         healthStore.requestAuthorization(toShare: typesToShare, read: nil) { success, error in
             if let error = error {
                 print("HealthKit authorization error: \(error.localizedDescription)")
+                completion(false)
+            }
+            else {
+                completion(success)
             }
         }
     }
