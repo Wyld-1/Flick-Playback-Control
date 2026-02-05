@@ -14,6 +14,36 @@ import Combine
 class MediaManager: ObservableObject {
     private let commandCenter = MPRemoteCommandCenter.shared()
     
+    init() {
+        // Enable the commands
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.togglePlayPauseCommand.isEnabled = true
+        commandCenter.nextTrackCommand.isEnabled = true
+        commandCenter.previousTrackCommand.isEnabled = true
+        
+        // Optional: Add handlers (not always necessary)
+        commandCenter.playCommand.addTarget { event in
+            return .success
+        }
+        
+        commandCenter.pauseCommand.addTarget { event in
+            return .success
+        }
+        
+        commandCenter.nextTrackCommand.addTarget { event in
+            return .success
+        }
+        
+        commandCenter.previousTrackCommand.addTarget { event in
+            return .success
+        }
+        
+        commandCenter.togglePlayPauseCommand.addTarget { event in
+            return .success
+        }
+    }
+    
     func handleGesture(_ gesture: GestureType) {
         switch gesture {
         case .nextTrack:
