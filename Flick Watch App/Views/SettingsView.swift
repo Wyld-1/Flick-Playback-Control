@@ -14,15 +14,6 @@ struct SettingsView: View {
     var body: some View {
         List {
             Section {
-                // Enable/disable tap for play/pause toggle
-                Toggle(isOn: $appState.isTapEnabled) {
-                    HStack(spacing: 4) {
-                        Text("Tap screen to")
-                        Image(systemName: "playpause.fill")
-                    }
-                }
-                .tint(.orange)
-                
                 // Reverse flick directions
                 Toggle(isOn: $appState.isFlickDirectionReversed) {
                     HStack(spacing: 4) {
@@ -30,6 +21,15 @@ struct SettingsView: View {
                         Image(systemName: "backward.fill")
                         Text("/")
                         Image(systemName: "forward.fill")
+                    }
+                }
+                .tint(.orange)
+                
+                // Enable/disable tap for play/pause toggle
+                Toggle(isOn: $appState.isTapEnabled) {
+                    HStack(spacing: 4) {
+                        Text("Tap screen to")
+                        Image(systemName: "playpause.fill")
                     }
                 }
                 .tint(.orange)
@@ -43,7 +43,7 @@ struct SettingsView: View {
 
                         // Left-aligned icon
                         HStack {
-                            Image(systemName: "bubble.left.and.bubble.right.fill")
+                            Image(systemName: "hammer.circle.fill")
                                 .foregroundStyle(.purple)
                             Spacer()
                         }
