@@ -17,16 +17,16 @@ class MediaManager: ObservableObject {
     func handleGesture(_ gesture: GestureType) {
         switch gesture {
         case .nextTrack:
-            commandCenter.nextTrackCommand.perform(nil)
             WKInterfaceDevice.current().play(.success)
+            commandCenter.nextTrackCommand.perform(nil)
             
         case .previousTrack:
-            commandCenter.previousTrackCommand.perform(nil)
             WKInterfaceDevice.current().play(.success)
+            commandCenter.previousTrackCommand.perform(nil)
             
         case .playPause:
-            commandCenter.togglePlayPauseCommand.perform(nil)
             WKInterfaceDevice.current().play(.success)
+            commandCenter.togglePlayPauseCommand.perform(nil)
             
         case .none:
             break
